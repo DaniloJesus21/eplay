@@ -47,10 +47,14 @@ export const Modal = styled.div`
   width: 100%;
   height: 100%;
   z-index: 1;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   background-color: #000000c0;
+
+  &.visivel {
+    display: flex;
+  }
 `
 
 export const ModalContent = styled.div`
@@ -67,10 +71,20 @@ export const ModalContent = styled.div`
       font-size: 18px;
       font-weight: bold;
     }
+
+    img {
+      cursor: pointer;
+    }
   }
 
-  img {
+  img,
+  iframe {
     display: block;
     max-width: 100%;
+  }
+
+  iframe {
+    width: 100%;
+    height: 480px;
   }
 `
