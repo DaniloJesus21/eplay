@@ -1,88 +1,51 @@
+import { useEffect, useState } from 'react'
+
 import Banner from '../../components/Banner'
 import ProductsList from '../../components/ProductsList'
-import Game from '../../models/Game'
 
-import zelda from '../../assets/images/zelda.png'
+export interface GalleryItem {
+  type: 'video' | 'image'
+  url: string
+}
 
-const promocoes: Game[] = [
-  {
-    id: 1,
-    category: 'Ação',
-    description: 'Descrição do jogo',
-    image: zelda,
-    infos: ['10%', 'R$ 250,00'],
-    system: 'Playstation 4',
-    title: 'Resident Evil 4'
-  },
-  {
-    id: 2,
-    category: 'RPG',
-    description: 'Descrição do jogo',
-    image: zelda,
-    infos: ['5%', 'R$ 290,00'],
-    system: 'Playstation 5',
-    title: 'Diablo 4'
-  },
-  {
-    id: 3,
-    category: 'Aventura',
-    description: 'Descrição do jogo',
-    image: zelda,
-    infos: ['10%', 'R$ 250,00'],
-    system: 'Windows',
-    title: 'Star Wars Jedi: Survivor'
-  },
-  {
-    id: 4,
-    category: 'RPG',
-    description: 'Descrição do jogo',
-    image: zelda,
-    infos: ['10%', 'R$ 250,00'],
-    system: 'PC',
-    title: 'The Legend of Zelda'
+export type Game = {
+  id: number
+  name: string
+  description: string
+  release_date?: string
+  prices: {
+    discount?: string
+    old?: string
+    current?: string
   }
-]
-
-const emBreve: Game[] = [
-  {
-    id: 5,
-    category: 'Aventura',
-    description: 'Descrição do jogo',
-    image: zelda,
-    infos: ['17/09'],
-    system: 'PC',
-    title: 'The Legend of Zelda'
-  },
-  {
-    id: 6,
-    category: 'Aventura',
-    description: 'Descrição do jogo',
-    image: zelda,
-    infos: ['21/10'],
-    system: 'PC',
-    title: 'The Legend of Zelda'
-  },
-  {
-    id: 7,
-    category: 'Aventura',
-    description: 'Descrição do jogo',
-    image: zelda,
-    infos: ['23/11'],
-    system: 'PC',
-    title: 'The Legend of Zelda'
-  },
-  {
-    id: 8,
-    category: 'Aventura',
-    description: 'Descrição do jogo',
-    image: zelda,
-    infos: ['07/12'],
-    system: 'PC',
-    title: 'The Legend of Zelda'
+  details: {
+    category: string
+    system: string
+    developer: string
+    publisher: string
+    languages: string[]
   }
-]
+  media: {
+    thumbnail: string
+    cover: string
+    gallery: GalleryItem[]
+  }
+}
 
 const Home = () => {
+  const [promocoes, setPromocoes] = useState<Game[]>([])
+  const [emBreve, setEmBreve] = useState<Game[]>([])
+
+  useEffect(() => {
+    fetch('https://ebac-fake-api.vercel.app/api/eplay/promocoes')
+      .then((res) => res.json())
+      .then((res) => setPromocoes(res))
+
+    fetch('https://ebac-fake-api.vercel.app/api/eplay/em-breve')
+      .then((res) => res.json())
+      .then((res) => setEmBreve(res))
+  }, [])
+
   return (
     <>
       <Banner />
