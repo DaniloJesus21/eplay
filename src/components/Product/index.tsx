@@ -21,10 +21,17 @@ const Product = ({
   id
 }: Props) => {
   const getDescricao = (description: string) => {
-    if (description.length > 95) {
-      return `${description.substring(0, 92)}...`
+    if (description.length > 85) {
+      return `${description.substring(0, 82)}...`
     }
     return description
+  }
+
+  const getTitle = (title: string) => {
+    if (title.length > 30) {
+      return `${title.substring(0, 27)}...`
+    }
+    return title
   }
 
   return (
@@ -35,7 +42,7 @@ const Product = ({
           <Tag key={info}>{info}</Tag>
         ))}
       </Infos>
-      <Titulo>{title}</Titulo>
+      <Titulo>{getTitle(title)}</Titulo>
       <Tag>{category}</Tag>
       <Tag>{system}</Tag>
       <Descricao>{getDescricao(description)}</Descricao>

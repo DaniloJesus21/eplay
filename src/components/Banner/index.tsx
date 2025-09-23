@@ -5,15 +5,10 @@ import { Game } from '../../pages/Home'
 import { useEffect, useState } from 'react'
 
 import { formataPreco } from '../ProductsList'
+import { useGetFeaturedGameQuery } from '../../services/api'
 
 const Banner = () => {
-  const [game, setGame] = useState<Game>()
-
-  useEffect(() => {
-    fetch('https://ebac-fake-api.vercel.app/api/eplay/destaque')
-      .then((res) => res.json())
-      .then((res) => setGame(res))
-  }, [])
+  const { data: game, isLoading } = useGetFeaturedGameQuery()
 
   if (!game) {
     return (
