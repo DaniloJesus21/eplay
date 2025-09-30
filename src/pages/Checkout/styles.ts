@@ -50,6 +50,7 @@ export const TabButton = styled.button<TabButtonProps>`
   height: 32px;
   border: none;
   margin-right: 16px;
+  padding: 8px 16px;
   cursor: pointer;
 
   img {
