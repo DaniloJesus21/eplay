@@ -6,9 +6,9 @@ import { GalleryItem } from '../../pages/Home'
 
 import play from '../../assets/images/play.png'
 import zoom from '../../assets/images/zoom.png'
-import fechar from '../../assets/images/fechar.png'
+import closeIcon from '../../assets/images/fechar.png'
 
-import { Items, Item, Action, Modal, ModalContent } from './styles'
+import * as S from './styles'
 
 type Props = {
   defaultCover: string
@@ -52,9 +52,9 @@ const Gallery = ({ defaultCover, name, items }: Props) => {
   return (
     <>
       <Section title="Galeria" background="black">
-        <Items>
+        <S.Items>
           {items.map((media, index) => (
-            <Item
+            <S.Item
               key={index}
               onClick={() => {
                 setModal({
@@ -68,28 +68,24 @@ const Gallery = ({ defaultCover, name, items }: Props) => {
                 src={getMediaCover(media)}
                 alt={`Media ${index + 1} da ${name}`}
               />
-              <Action>
+              <S.Action>
                 <img
                   src={getMediaIcon(media)}
                   alt="Clique para maximizar a midia"
                 />
-              </Action>
-            </Item>
+              </S.Action>
+            </S.Item>
           ))}
-        </Items>
+        </S.Items>
       </Section>
-      <Modal
-        className={modal.isVisible ? 'visivel' : ''}
-        onClick={() => closeModal()}
+      <S.Modal
+        className={modal.isVisible ? 'is-visible' : ''}
+        onClick={closeModal}
       >
-        <ModalContent className="container">
+        <S.ModalContent className="container">
           <header>
             <h4>{name}</h4>
-            <img
-              src={fechar}
-              alt="Icone de fechar"
-              onClick={() => closeModal()}
-            />
+            <img src={closeIcon} alt="Icone de fechar" onClick={closeModal} />
           </header>
           {modal.type === 'image' ? (
             <img src={modal.url} alt={name} />
@@ -101,8 +97,8 @@ const Gallery = ({ defaultCover, name, items }: Props) => {
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             ></iframe>
           )}
-        </ModalContent>
-      </Modal>
+        </S.ModalContent>
+      </S.Modal>
     </>
   )
 }

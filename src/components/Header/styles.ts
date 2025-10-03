@@ -1,11 +1,11 @@
 import styled from 'styled-components'
-import { breakpoints, cores } from '../../styles'
+import { breakpoints, colors } from '../../styles'
 
 export const Links = styled.ul`
   display: flex;
   gap: 24px;
   margin-left: 40px;
-  color: ${cores.branca};
+  color: ${colors.white};
 
   @media (max-width: ${breakpoints.tablet}) {
     margin-left: 0;
@@ -14,13 +14,13 @@ export const Links = styled.ul`
 `
 
 export const HeaderBar = styled.header`
-  background-color: ${cores.cinza};
+  background-color: ${colors.gray};
   padding: 24px;
   border-radius: 16px;
   margin-bottom: 80px;
 
   a {
-    color: ${cores.branca};
+    color: ${colors.white};
     text-decoration: none;
     font-weight: bold;
   }
@@ -89,7 +89,7 @@ export const Hamburguer = styled.div`
 
   span {
     height: 2px;
-    background-color: ${cores.branca};
+    background-color: ${colors.white};
     display: block;
     width: 100%;
     margin-bottom: 4px;
