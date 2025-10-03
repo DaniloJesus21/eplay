@@ -7,9 +7,11 @@ import boleto from '../../assets/images/boleto.png'
 import cartao from '../../assets/images/cartao.png'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { usePurchaseMutation } from '../../services/api'
 
 const Checkout = () => {
   const [payWithCard, setPayWithCard] = useState(false)
+  const [purchase, { isLoading, isError, data }] = usePurchaseMutation()
 
   const form = useFormik({
     initialValues: {
@@ -19,6 +21,7 @@ const Checkout = () => {
       deliveryEmail: '',
       confirmDeliveryEmail: '',
       cardOwner: '',
+      cpfCardOwner: '',
       cardDisplayName: '',
       cardNumber: '',
       expiresMonth: '',
@@ -35,7 +38,7 @@ const Checkout = () => {
         .required('O campo é obrigatório'),
       cpf: Yup.string()
         .min(14, 'O CPF deve ter 14 caracteres')
-        .max(14, 'O CPF deve ter 14 caracteres')
+        .max(15, 'O CPF deve ter 14 caracteres')
         .required('O campo é obrigatório'),
       deliveryEmail: Yup.string()
         .email('E-mail inválido')
@@ -49,6 +52,9 @@ const Checkout = () => {
           payWithCard ? schema.required('O campo é obrigatório') : schema
         )
         .required('O campo é obrigatório'),
+      cpfCardOwner: Yup.string().when((values, schema) =>
+        payWithCard ? schema.required('O campo é obrigatório') : schema
+      ),
       cardDisplayName: Yup.string()
         .when((values, schema) =>
           payWithCard ? schema.required('O campo é obrigatório') : schema
@@ -81,7 +87,39 @@ const Checkout = () => {
         .required('O campo é obrigatório')
     }),
     onSubmit: (values) => {
-      console.log(values)
+      purchase({
+        billing: {
+          name: values.fullName,
+          email: values.email,
+          document: values.cpf
+        },
+        delivery: {
+          email: values.deliveryEmail
+        },
+        payment: {
+          card: {
+            active: payWithCard,
+            owner: {
+              name: values.cardOwner,
+              document: values.cpfCardOwner
+            },
+            name: values.cardDisplayName,
+            number: values.cardNumber,
+            expires: {
+              month: 1,
+              year: 2025
+            },
+            code: Number(values.cardCode)
+          },
+          installments: 1
+        },
+        products: [
+          {
+            id: 1,
+            price: 100
+          }
+        ]
+      })
     }
   })
 
@@ -216,7 +254,7 @@ const Checkout = () => {
                       type="text"
                       name="cpfCardOwner"
                       id="cpfCardOwner"
-                      value={form.values.cpf}
+                      value={form.values.cpfCardOwner}
                       onChange={form.handleChange}
                       onBlur={form.handleBlur}
                     />
