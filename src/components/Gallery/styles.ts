@@ -13,7 +13,6 @@ export const Action = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  cursor: pointer;
   background-color: #000000c0;
   display: flex;
   align-items: center;
@@ -24,6 +23,7 @@ export const Action = styled.div`
 
 export const Item = styled.li`
   position: relative;
+  cursor: zoom-in;
 
   > img {
     border: 2px solid ${cores.branca};
